@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Modular - Detalhes | Sua Marca</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <style>
+        /* Variáveis de Cores */
+        :root {
+            --red: #9b2226;
+            --dark-metal: #2c3e50;
+            --light-metal: #ecf0f1;
+            --text-dark: #333;
+            --text-light: #f9f9f9;
+        }
+
+        /* Base e Tipografia */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-metal);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Layout Principal */
+        .product-detail-section {
+            padding: 80px 5%;
+            background-color: #fcfcfc;
+            min-height: 80vh;
+        }
+
+        .product-detail-section .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Navegação Breadcrumb */
+        .breadcrumb {
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .breadcrumb a {
+            color: var(--red);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Título */
+        .product-detail-section h1 {
+            font-size: 3.5rem;
+            color: var(--dark-metal);
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+        .tagline {
+            font-size: 1.25rem;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        /* Layout Imagem/Info */
+        .product-layout {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        /* Galeria de Imagens */
+        .product-gallery {
+            flex: 1 1 500px; /* Cresce até 500px */
+            min-width: 300px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .product-gallery .main-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 5px solid white;
+        }
+
+        /* Informações do Produto */
+        .product-info {
+            flex: 1 1 500px;
+            min-width: 350px;
+        }
+
+        .product-info h2 {
+            font-size: 2rem;
+            color: var(--red);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--light-metal);
+        }
+        
+        .product-info p {
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        /* Lista de Características */
+        .product-info ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 30px;
+        }
+
+        .product-info ul li {
+            padding: 10px 0;
+            color: var(--text-dark);
+            font-weight: 500;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .product-info ul li:last-child {
+            border-bottom: none;
+        }
+
+        .product-info ul li i {
+            color: #27ae60; /* Verde para check */
+            margin-right: 12px;
+            font-size: 1.1em;
+        }
+
+        /* Tabela de Especificações */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .specs-table th, .specs-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            font-size: 15px;
+        }
+
+        .specs-table th {
+            background-color: var(--dark-metal);
+            color: var(--text-light);
+            font-weight: 600;
+            width: 40%;
+        }
+        
+        .specs-table td {
+            background-color: white;
+            color: #555;
+        }
+        
+        /* Botão */
+        .cta-detail-button {
+            background-color: var(--red);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s;
+        }
+
+        .cta-detail-button:hover {
+            background-color: #7b1e1e;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsividade */
+        @media (max-width: 1100px) {
+            .product-layout {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .product-gallery, .product-info {
+                min-width: 100%;
+            }
+            .product-detail-section h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .product-detail-section {
+                padding: 40px 5%;
+            }
+            .product-detail-section h1 {
+                font-size: 2rem;
+            }
+            .tagline {
+                font-size: 1rem;
+            }
+            .specs-table th, .specs-table td {
+                padding: 10px;
+                font-size: 14px;
+            }
+            .specs-table th {
+                width: 50%;
+            }
+        }
+        
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .product-info, .breadcrumb {
+            animation: fadeIn 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .product-gallery {
+            animation: fadeIn 1s ease-out 0.1s forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo-link">
+            <!-- Usando placeholder, substitua por seu logo -->
+            <img src="https://placehold.co/50x50/333/fff?text=L" alt="Logo" class="logoberta">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <span>Produtos</span>
+                        <i class="arrow-icon fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="refrigeracao.html"><span>Refrigeração</span></a></li>
+                        <li><a href="bar.html"><span>Bar</span></a></li>
+                        <li><a href="mobiliario.html"><span>Mobiliário</span></a></li>
+                        <li><a href="coccao.html"><span>Cocção</span></a></li>
+                        <li><a href="forno.html"><span>Forno</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#features">Sobre</a></li>
+                <li><a href="index.html#manutencao">Manutenção</a></li>
+                <li><a href="index.html#contato">Contato</a></li>
+            </ul>
+        </nav>
+        <a href="#contato" class="botao-animado">Orçamento</a>
+    </header>
+
+    <main>
+        <section class="product-detail-section">
+            <div class="container">
+                <nav class="breadcrumb">
+                    <a href="index.html">Início</a> &gt; <a href="index.html#produtos">Produtos</a> &gt; Bar Modular
+                </nav>
+
+                <h1>Bar Modular Personalizável</h1>
+                <p class="tagline">A solução ergonômica e de alto impacto visual para o seu serviço de bebidas.</p>
+                
+                <div class="product-layout">
+                    
+                    <div class="product-gallery">
+                        <img src="https://placehold.co/800x600/2c3e50/f9f9f9?text=BAR+MODULAR+A%C3%87O+INOX" alt="Bar modular em aço inoxidável" class="main-image">
+                    </div>
+
+                    <div class="product-info">
+                        
+                        <h2>Design e Fluxo de Trabalho</h2>
+                        <p>Nosso sistema de bar foi projetado em colaboração com bartenders profissionais, garantindo que cada estação otimize o fluxo de trabalho, desde a preparação até o serviço, maximizando a eficiência em horários de pico.</p>
+
+                        <h2>Características Chave</h2>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Design 100% customizável em dimensões e acabamentos.</li>
+                            <li><i class="fas fa-check-circle"></i> Aço Inox AISI 304 de alta resistência e fácil higienização.</li>
+                            <li><i class="fas fa-check-circle"></i> Estações de gelo e speed rails integrados.</li>
+                            <li><i class="fas fa-check-circle"></i> Sistemas de drenagem e isolamento térmico superiores.</li>
+                        </ul>
+
+                        <h2>Especificações Técnicas</h2>
+                        <table class="specs-table">
+                            <tr>
+                                <th>Material Base</th>
+                                <td>Aço Inox AISI 304 (Grau Alimentício)</td>
+                            </tr>
+                            <tr>
+                                <th>Módulos</th>
+                                <td>Gelo, Pia, Estação de Preparo, Prateleiras</td>
+                            </tr>
+                            <tr>
+                                <th>Acabamento</th>
+                                <td>Escovado Premium</td>
+                            </tr>
+                            <tr>
+                                <th>Garantia</th>
+                                <td>5 Anos (Estrutura)</td>
+                            </tr>
+                        </table>
+
+                        <button class="cta-detail-button">Falar com um Consultor</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER: Inclua aqui o código do seu rodapé -->
+    <footer class="split-footer">
+    <div class="footer-main-content">
+      <div class="footer-nav-column">
+        <h3>Navegação</h3>
+        <ul>
+          <li><a href="#sobre">Sobre Nós</a></li>
+          <li><a href="#produtos">Nossos Produtos</a></li>
+          <li><a href="#manutencao">Serviços</a></li>
+          <li><a href="#contato">Fale Conosco</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-brand-column">
+        <a href="#top" class="logo-link">
+          <img class="logoberta" src="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png" alt="Logo da Berta" />
+        </a>
+        <div class="social-links-split">
+          <a href="https://www.instagram.com/bertacozinhas/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/BertaCozinhasIndustrial" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.linkedin.com/company/berta-cozinhas-industriais/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom-split">
+      <p>© 2024 Berta Cozinhas Industriais. Todos os direitos reservados.</p>
+      <a href="#top" class="back-to-top" aria-label="Voltar para o Topo"><i class="fas fa-chevron-up"></i></a>
+    </div>
+  </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

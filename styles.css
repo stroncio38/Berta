@@ -1,0 +1,984 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --red: #9b2226;
+  --light-bg: #ffffff;
+  --muted: #f4f4f4;
+  --text: #333;
+}
+
+/* Base */
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text);
+  background-color: #fafafa;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* HEADER */
+header {
+  background-color: white;
+  padding: 15px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo-link { display: inline-block; }
+.logoberta {
+  width: 50px;
+  height: 50px;
+  display: block;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* underline hover no Menu Principal */
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: var(--red);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+nav a:hover {
+  color: var(--red);
+}
+
+nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* ==================== DROPDOWN MENU (AJUSTADO) ==================== */
+.dropdown {
+  position: relative;
+}
+
+/* ==================== ESTILO E ANIMAÇÃO DA SETA DO DROPDOWN ==================== */
+
+.dropdown-toggle {
+  display: flex; /* Permite alinhar a seta ao lado do texto */
+  align-items: center;
+  gap: 5px; /* Espaço entre o texto "Produtos" e a seta */
+}
+
+.dropdown-toggle .arrow-icon {
+  font-size: 14px; /* Tamanho do ícone da seta (Font Awesome) */
+  color: #333;
+  transition: transform 0.3s ease; /* Animação para a rotação da seta */
+}
+
+/* Se estiver usando SVG, adicione regras para o SVG também: */
+/*
+.dropdown-toggle svg.arrow-icon {
+  width: 14px;
+  height: 14px;
+  stroke: #333;
+  fill: none;
+}
+*/
+
+/* Gira a seta quando o dropdown está aberto ou em hover */
+.dropdown:hover .dropdown-toggle .arrow-icon,
+.dropdown.open .dropdown-toggle .arrow-icon {
+  transform: rotate(180deg); /* Gira 180 graus para apontar para cima */
+  color: var(--red); /* Muda a cor da seta no hover */
+}
+
+/* Garante que o texto "Produtos" também mude de cor no hover */
+.dropdown-toggle:hover span {
+  color: var(--red);
+}
+
+/* ... Mantenha as regras do underline hover do menu principal ... */
+
+/* Para garantir que o underline não se sobreponha à seta: */
+nav a::after {
+  /* ... regras existentes ... */
+  left: 0; /* Alinha o underline com o texto */
+  width: calc(100% - 20px); /* Ajusta a largura para não ir até a seta */
+}
+
+/* Se você quiser que o underline vá até a seta (opcional): */
+/*
+nav a::after {
+  width: 100%; 
+  left: 0;
+}
+*/
+
+.dropdown-toggle {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  z-index: 1001; 
+  
+  /* Esconde o menu por padrão, permitindo transição */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown:hover .dropdown-menu,
+.dropdown.open .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu li {
+  display: block;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 20px;
+  white-space: nowrap; 
+  font-weight: 400; 
+  color: #333;
+  text-decoration: none;
+  position: relative; /* O <a> precisa ser relative para o ::before */
+  overflow: hidden; 
+  transition: color 0.3s ease;
+  /* Não precisamos de z-index aqui */
+}
+
+/* Desativa o underline animado nos links do dropdown */
+.dropdown-menu a::after {
+  display: none; 
+}
+
+/* NOVO: Estilo para o span dentro do link - Garante que o texto fique ACIMA */
+.dropdown-menu a span {
+    position: relative; /* Essencial para que o z-index funcione */
+    z-index: 2;         /* Coloca o texto acima do ::before */
+    transition: color 0.3s ease; /* Anima a cor do texto */
+}
+
+
+/* A Tarja Vermelha Deslizante */
+.dropdown-menu a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--red);
+  z-index: 1; /* Fica abaixo do span (z-index: 2) */
+  transform: translateX(-100%); 
+  transition: transform 0.3s ease-out; 
+}
+
+/* Hover para ativar o deslize */
+.dropdown-menu a:hover::before {
+  transform: translateX(0); 
+}
+
+/* Hover para o texto do link */
+.dropdown-menu a:hover span { /* Aponta para o span para mudar a cor do texto */
+  color: white; 
+}
+
+/* Mobile: Clique para abrir */
+@media (max-width: 768px) {
+  .dropdown-menu {
+    position: static;
+    opacity: 1;
+    visibility: hidden;
+    transform: none;
+    display: none;
+  }
+  .dropdown.open .dropdown-menu {
+    display: flex; 
+    visibility: visible;
+  }
+}
+/* ==================== FIM DROPDOWN MENU ==================== */
+
+
+/* Animated button */
+.botao-animado {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: var(--red);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.botao-animado:hover {
+  transform: scale(1.05);
+  background-color: #7b1e1e;
+  box-shadow: 0 8px 8px rgba(0,0,0,0.12);
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 0 10%;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('https://i.imgur.com/FuzGdIg.png') no-repeat center/cover;
+  filter: blur(0px);
+  z-index: 0;
+  opacity: 0.8;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  animation: fadeInUp 1.5s ease-out forwards;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.hero-text h2 {
+  font-size: 46px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+  color: white;
+}
+
+.hero-text p {
+  font-size: 18px;
+  line-height: 1.6;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+  color: white;
+}
+
+/* FEATURES (Seção Sobre) */
+.features {
+  background: #f9f9f9;
+  color: #333;
+  text-align: center;
+  padding: 80px 10%;
+}
+
+.features h2 {
+  color: var(--red);
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.subtitulo {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 60px;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* CARD (novo comportamento: ícone central, texto oculto e aparece ao hover) */
+.card {
+  position: relative;
+  width: 280px;
+  height: 320px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  overflow: hidden;
+  border: 1px solid #eee;
+  padding: 20px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  outline: none;
+  cursor: default;
+}
+
+/* Ícone centralizado inicialmente */
+.card .icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.45s cubic-bezier(.2,.9,.3,1), top 0.45s, opacity 0.35s;
+  z-index: 2;
+}
+
+.card .icon svg {
+  width: 72px;
+  height: 72px;
+  stroke: var(--red);
+  fill: none;
+}
+
+/* Texto oculto por padrão, posicionado perto da base do card */
+.card .card-text {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%) translateY(12px);
+  text-align: center;
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(.2,.9,.3,1), opacity 0.35s;
+  width: calc(100% - 40px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.card .card-text h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.card .card-text p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* Hover / focus interaction */
+.card:hover,
+.card:focus {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.card:hover .icon,
+.card:focus .icon {
+  top: 18%;
+  transform: translate(-50%, 0) scale(1.06);
+  opacity: 1;
+}
+
+.card:hover .card-text,
+.card:focus .card-text {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* CTA */
+.cta {
+  margin-top: 100px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+  padding: 40px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.cta.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cta h3 {
+  color: var(--red);
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.cta p {
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.cta-button {
+  background-color: var(--red);
+  color: #fff;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cta-button:hover {
+  transform: scale(1.05);
+  background-color: #7b1e1e;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================== PRODUTOS ===================== */
+.produtos-section {
+  text-align: center;
+  padding: 80px 5%;
+  background: white;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: transform 0.8s cubic-bezier(.2,.9,.3,1), opacity 0.8s ease;
+}
+
+.produtos-section.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.produtos-section h2 {
+  font-size: 2rem;
+  color: var(--red);
+  margin-bottom: 40px;
+}
+
+.produtos-abas {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 50px;
+}
+
+.produtos-abas .aba {
+  border: 1px solid #ddd;
+  background: #f0f0f0;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #555;
+}
+
+.produtos-abas .aba.ativa {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+
+.produtos-conteudo .conteudo {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.5s ease;
+}
+
+.produtos-conteudo .conteudo.ativo {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.produtos-conteudo .texto {
+  flex: 1;
+  min-width: 300px;
+  text-align: left;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Carrossel */
+.carrossel {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  overflow: hidden;
+  border-radius: 15px;
+  flex-shrink: 0;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.carrossel .slides {
+  display: flex;
+  transition: transform 0.6s ease;
+}
+
+.carrossel img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.carrossel-controles {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 10px;
+}
+
+.carrossel-controles span {
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.carrossel-controles span:hover {
+  background: var(--red);
+}
+
+/* ==================== MANUTENÇÃO ==================== */
+.manutencao-section {
+  padding: 100px 8%;
+  background: #f0f0f0;
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: transform 0.8s cubic-bezier(.2,.9,.3,1), opacity 0.8s ease;
+}
+
+.manutencao-section.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.manutencao-conteudo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  flex-wrap: nowrap;
+}
+
+.manutencao-conteudo .texto {
+  flex: 1;
+  min-width: 320px;
+}
+
+.manutencao-conteudo .texto h2 {
+  color: var(--red);
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.manutencao-conteudo .texto p {
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.manutencao-conteudo .imagem {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.manutencao-conteudo .imagem img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* ==================== CONTATO ==================== */
+.contato-section {
+  padding: 100px 5%;
+  background-color: white;
+  text-align: center;
+}
+
+.contato-section h2 {
+  font-size: 2.5rem;
+  color: var(--red);
+  margin-bottom: 10px;
+}
+
+.contato-container {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contato-mapa {
+  width: 100%;
+  height: 450px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.contato-mapa iframe {
+  display: block;
+}
+
+.contato-info-form {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  text-align: left;
+}
+
+.contato-info, .contato-form {
+  flex: 1;
+  min-width: 300px;
+  background: var(--light-bg);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.contato-info h3, .contato-form h3 {
+  color: var(--red);
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.info-item {
+  margin-bottom: 15px;
+  line-height: 1.4;
+  color: #555;
+}
+
+.info-item i {
+  color: var(--red);
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+.contato-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contato-form input, .contato-form textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.contato-form input:focus, .contato-form textarea:focus {
+  border-color: var(--red);
+  outline: none;
+}
+
+.contato-form .cta-button {
+  margin-top: 10px;
+  align-self: flex-start;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 900px) {
+  .produtos-conteudo .conteudo {
+    flex-direction: column;
+    text-align: center;
+  }
+  .produtos-conteudo .texto {
+    text-align: center;
+  }
+  .carrossel {
+    max-width: 100%;
+  }
+  .carrossel img {
+    height: 250px;
+  }
+  .manutencao-conteudo {
+    flex-direction: column;
+    text-align: center;
+  }
+  .manutencao-conteudo .imagem {
+    order: 2;
+  }
+  .manutencao-conteudo .texto {
+    order: 1;
+  }
+  .contato-info-form {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 5%;
+  }
+  nav ul {
+    gap: 15px;
+  }
+  .hero-text h2 {
+    font-size: 36px;
+  }
+  .hero {
+    height: 80vh;
+  }
+}
+/* ==================== FOOTER EM DUAS COLUNAS ==================== */
+.split-footer {
+    background-color: #333;
+    color: #f9f9f9;
+    padding: 50px 5% 20px;
+    font-size: 14px;
+}
+
+.footer-main-content {
+    display: flex;
+    justify-content: space-between; /* Distribui as colunas */
+    align-items: flex-start; /* Alinha o conteúdo ao topo */
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding-bottom: 30px;
+}
+
+/* Coluna de Navegação (Esquerda) */
+.footer-nav-column h3 {
+    font-size: 18px;
+    color: var(--red); /* Usando a variável de cor vermelha */
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.footer-nav-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-nav-column a {
+    color: #ccc;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+    transition: color 0.3s;
+}
+
+.footer-nav-column a:hover {
+    color: white;
+}
+
+/* Coluna de Marca e Redes Sociais (Direita) */
+.footer-brand-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Alinha o conteúdo à direita */
+}
+
+.footer-brand-column .logoberta {
+    filter: brightness(0) invert(1); /* Logo branco */
+    margin-bottom: 25px;
+    width: 60px;
+    height: 60px;
+}
+
+/* Redes Sociais com Animação Hover */
+.social-links-split a {
+    color: white;
+    font-size: 24px;
+    margin-left: 15px; /* Espaçamento entre os ícones */
+    transition: color 0.3s, transform 0.3s;
+    display: inline-block;
+}
+
+.social-links-split a:hover {
+    color: var(--red); /* Cor vermelha no hover */
+    transform: scale(1.1) translateY(-3px); /* Efeito de pulo e aumento */
+}
+
+
+/* Bottom Section: Direitos Autorais Centralizados */
+.footer-bottom-split {
+    border-top: 1px solid #444;
+    padding-top: 20px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center; /* Centraliza o texto */
+    align-items: center;
+    position: relative;
+    max-width: 1200px; /* Mantém a largura máxima do conteúdo */
+}
+
+.footer-bottom-split p {
+    margin: 0;
+    color: #ccc;
+    text-align: center;
+    flex-grow: 1; /* Permite que o parágrafo ocupe o espaço e centralize */
+}
+
+.back-to-top {
+    position: absolute;
+    right: 0; /* Alinha o botão "Voltar ao topo" no canto direito */
+    color: var(--red);
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 50%;
+    background: #555;
+    transition: background-color 0.3s;
+}
+
+.back-to-top:hover {
+    background: var(--red);
+    color: white;
+}
+
+/* MEDIA QUERY PARA RESPONSIVIDADE (Celulares/Tablets) */
+@media (max-width: 768px) {
+    .footer-main-content {
+        flex-direction: column; /* Coloca as colunas em pilha */
+        align-items: center; /* Centraliza horizontalmente */
+        text-align: center;
+    }
+
+    .footer-nav-column, .footer-brand-column {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .footer-nav-column ul {
+        margin-bottom: 20px;
+    }
+
+    .footer-brand-column {
+        align-items: center; /* Centraliza a logo e as redes na coluna */
+    }
+    
+    .footer-brand-column .logoberta {
+        margin-bottom: 15px;
+    }
+
+    .social-links-split a {
+        margin: 0 10px; /* Reduz o espaçamento em mobile */
+    }
+    
+    /* Reposiciona o botão de voltar ao topo em relação ao rodapé */
+    .footer-bottom-split {
+        justify-content: center;
+        padding-right: 0;
+    }
+
+    .back-to-top {
+        position: static; /* Remove o posicionamento absoluto */
+        margin-top: 15px; /* Adiciona espaço acima do botão */
+    }
+}
+/* ==================== ANIMAÇÕES FADE-IN (CORRIGIDAS) ==================== */
+
+/* Estado inicial: Elementos prontos para animar */
+.js-scroll {
+    opacity: 0;
+    transition: opacity 800ms ease, transform 800ms ease;
+    will-change: opacity, transform; /* Otimização para performance */
+}
+
+/* Animação genérica de Fade In */
+.js-scroll.animated {
+    opacity: 1;
+    transform: none;
+}
+
+/* Animação: Fade In Down (para a seção "Sobre") */
+.features.js-scroll {
+    transform: translateY(-30px); 
+}
+
+/* Card: Inicia invisível e transicionado */
+.features .cards-container .card {
+    opacity: 0;
+    transform: translateY(30px);
+    /* Mantém a transição para os cards, o delay será ajustado no JS */
+    transition: opacity 800ms ease, transform 800ms ease; 
+    transition-delay: 0ms; 
+    will-change: opacity, transform;
+}
+
+/* Estado animado dos Cards (aplicado pelo JS) */
+.features .cards-container .card.animated {
+    opacity: 1;
+    transform: none;
+}
+
+/* Animação: Fade In Up (para a seção "Contato") */
+.contato-section.js-scroll, 
+.contato-container.fade-up { 
+    transform: translateY(30px); 
+}
+
+/* Ajuste para elementos que já tinham animação */
+.features h2.fade-down,
+.features p.fade-down.subtitulo,
+.features .cta.fade-up {
+    /* Garante que elementos internos animados manualmente não sejam afetados, se for o caso */
+    opacity: 1;
+    transform: none;
+}
+
