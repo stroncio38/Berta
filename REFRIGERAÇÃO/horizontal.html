@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refrigerador Horizontal | Berta Cozinhas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #fcfcfc; color: #1a1a1a; margin: 0; }
+        :root { --vinho: #800020; --vinho-dark: #5a0016; --dark-bg: #111111; }
+        
+        .bg-vinho { background-color: var(--vinho); }
+        .text-vinho { color: var(--vinho); }
+
+        /* Header Centralizado (Seu Padrão) */
+        header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: white; border-bottom: 1px solid #f3f4f6; position: sticky; top: 0; z-index: 1000; }
+        .logo-container { flex: 0 0 180px; }
+        header nav { flex: 1; display: flex; justify-content: center; }
+        header nav ul { display: flex; gap: 2.5rem; list-style: none; padding: 0; margin: 0; }
+        header nav a { text-decoration: none; color: #4b5563; font-weight: 500; transition: 0.3s; font-size: 0.95rem; }
+        header nav a:hover { color: var(--vinho); }
+        .header-spacer { flex: 0 0 180px; }
+
+        /* Dropdown (Seu Padrão) */
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: white; min-width: 220px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); padding: 10px 0; border-top: 3px solid var(--vinho); z-index: 100; }
+        .dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu a { display: block; padding: 10px 20px; color: #333; font-weight: 400; transition: 0.2s; }
+        .dropdown-menu a:hover { background: #f9f9f9; color: var(--vinho); padding-left: 25px; }
+
+        .has-submenu { position: relative; }
+        .submenu { display: none; position: absolute; left: 100%; top: 0; background-color: white; min-width: 280px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-left: 1px solid #eee; padding: 0.5rem 0; z-index: 101; }
+        .has-submenu:hover .submenu { display: block; }
+
+        .cart-badge { position: absolute; top: -8px; right: -8px; background-color: #9b2226; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        /* Footer (Seu Padrão) */
+        .premium-footer { background-color: var(--dark-bg); color: #ffffff; padding: 80px 0 0 0; margin-top: 80px;}
+        .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 60px; }
+        .footer-brand .logoberta { height: 45px; filter: brightness(0) invert(1); margin-bottom: 25px; }
+        .footer-brand p { color: #999; font-size: 0.9rem; line-height: 1.6; margin-bottom: 30px; }
+        .footer-title { color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 30px; position: relative; padding-bottom: 12px; }
+        .footer-title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 35px; height: 2px; background-color: var(--vinho); }
+        .footer-links ul { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 15px; }
+        .footer-links a { color: #bbb; text-decoration: none; font-size: 0.9rem; transition: all 0.3s ease; display: flex; align-items: center; }
+        .footer-links a:hover { color: #fff; transform: translateX(5px); }
+        .footer-links a i { margin-right: 10px; font-size: 0.7rem; color: var(--vinho); }
+        .footer-contact p { display: flex; align-items: flex-start; gap: 15px; color: #bbb; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
+        .footer-contact i { color: var(--vinho); margin-top: 5px; width: 16px; text-align: center; }
+        .social-grid { display: flex; gap: 12px; margin-top: 25px; }
+        .social-icon { width: 42px; height: 42px; background: #1a1a1a; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; transition: 0.3s; text-decoration: none; border: 1px solid #222; }
+        .social-icon:hover { background: var(--vinho); border-color: var(--vinho); transform: translateY(-5px); }
+        .footer-bottom { margin-top: 80px; padding: 30px 0; border-top: 1px solid #222; text-align: center; color: #666; font-size: 0.85rem; }
+
+        @media (max-width: 992px) { .footer-container { grid-template-columns: 1fr 1fr; gap: 40px; } header { padding: 1rem 2rem; } }
+        @media (max-width: 768px) { header nav { display: none; } .header-spacer { display: none; } .footer-container { grid-template-columns: 1fr; text-align: center; gap: 50px; } .footer-title::after { left: 50%; transform: translateX(-50%); } .footer-links a, .footer-contact p, .social-grid { justify-content: center; } .premium-footer { padding-top: 60px; } }
+
+        /* --- ESTILOS ESPECÍFICOS DA PÁGINA DO PRODUTO --- */
+        
+        /* Galeria de Imagens */
+        .main-image-container {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            margin-bottom: 1rem;
+        }
+        .main-image-container img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            transition: opacity 0.3s ease;
+        }
+        .thumbnail {
+            border: 2px solid transparent;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            cursor: pointer;
+            background-color: white;
+            padding: 0.5rem;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .thumbnail img {
+            max-height: 100%;
+            mix-blend-mode: multiply;
+        }
+        .thumbnail:hover { border-color: #e5e7eb; }
+        .thumbnail.active { border-color: var(--vinho); background-color: #fffafa; }
+
+        /* Tabela Técnica */
+        .tabela-wrapper { overflow-x: auto; border: 1px solid #d1d5db; border-radius: 0.5rem; }
+        .spec-table { width: 100%; min-width: 1000px; border-collapse: collapse; font-family: 'Roboto Mono', monospace; font-size: 0.8rem; color: #1a1a1a; background: white; }
+        .spec-table th, .spec-table td { border-bottom: 1px solid #e5e7eb; padding: 14px 16px; text-align: center; white-space: nowrap; }
+        .spec-table th { background-color: #f3f4f6; font-weight: 700; text-transform: uppercase; color: #4b5563; }
+        .spec-table tr:hover { background-color: #fdf2f2; }
+        .spec-table tr:last-child td { border-bottom: none; }
+        .spec-table td.col-model { font-weight: bold; text-align: left; color: var(--vinho); }
+        /* Apenas sombreamento na linha selecionada (sem check icon) */
+        .spec-table tr.selected { background-color: #fff1f2; }
+
+        /* Documentos */
+        .doc-btn {
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+        .doc-btn:hover {
+            border-color: var(--vinho);
+            box-shadow: 0 4px 12px rgba(128, 0, 32, 0.08);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- HEADER (O seu nav padrão exato) -->
+    <header>
+        <div class="logo-container">
+            <a href="/index.html">
+                <img class="h-8 md:h-9 w-auto" src="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png" alt="Logo Berta">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/index.html#sobre">Sobre</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <span>Produtos</span> 
+                        <i class="arrow-icon fas fa-chevron-down ml-1"></i> 
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="has-submenu">
+                            <a href="/REFRIGERAÇÃO/refrigeracao.html" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Refrigeração</span>
+                                <i class="fas fa-chevron-right" style="font-size: 10px;"></i>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="/REFRIGERAÇÃO/horizontal.html"><span>Refrig. Horizontal</span></a></li>
+                                <li><a href="/REFRIGERAÇÃO/gavetas.html"><span>Horizontal c/ Gavetas</span></a></li>
+                                <li><a href="/REFRIGERAÇÃO/vertical.html"><span>Refrig. Vertical</span></a></li>
+                                <li><a href="/REFRIGERAÇÃO/cabecote.html"><span>Cabeçote Refrigerado</span></a></li>
+                                <li style="border-top: 1px solid #eee; margin-top: 5px;">
+                                    <a href="/REFRIGERAÇÃO/refrigeracao.html" style="font-weight: bold; color: #9b2226; text-align: center; justify-content: center;">
+                                        <span>Ver Todos</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="/bar.html"><span>Bar</span></a></li>
+                        <li><a href="/mobiliario.html"><span>Mobiliário</span></a></li>
+                        <li><a href="/coccao.html"><span>Cocção</span></a></li>
+                        <li><a href="/forno.html"><span>Forno</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="/index.html#manutencao">Manutenção</a></li>
+                <li><a href="/index.html#contato">Contato</a></li>
+                <li><a href="/index.html#trabalhe-conosco">Trabalhe Conosco</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions flex justify-end items-center gap-6">
+            <a href="/orcamento.html" class="cart-btn text-gray-600 hover:text-vinho relative" title="Ver meu orçamento">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span id="cart-badge" class="cart-badge hidden">0</span>
+            </a>
+            <a href="/orcamento.html" class="botao-animado bg-vinho text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-red-900 transition shadow-lg no-underline" role="button">
+                MEU ORÇAMENTO
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-10 w-full">
+        
+        <!-- Breadcrumb -->
+        <nav class="text-sm text-gray-500 mb-8 flex items-center gap-2">
+            <a href="/index.html" class="hover:text-vinho transition">Início</a> 
+            <i class="fas fa-chevron-right text-[10px]"></i>
+            <a href="refrigeracao.html" class="hover:text-vinho transition">Catálogo de Refrigeração</a>
+            <i class="fas fa-chevron-right text-[10px]"></i>
+            <span class="text-vinho font-bold">Refrigerador Horizontal</span>
+        </nav>
+
+        <!-- SESSÃO SUPERIOR: IMAGENS E INFORMAÇÕES -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
+            
+            <!-- Lado Esquerdo: Galeria -->
+            <div>
+                <div class="main-image-container relative shadow-sm">
+                    <span class="absolute top-4 left-4 bg-red-50 text-vinho text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Série Profissional</span>
+                    <img id="main-product-img" src="/IMAGENS/refri2p.webp" alt="Refrigerador Horizontal">
+                </div>
+                <!-- Miniaturas -->
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="thumbnail active" onclick="changeImage('/IMAGENS/refri2p.webp', this)">
+                        <img src="/IMAGENS/refri2p.webp" alt="2 Portas">
+                    </div>
+                    <div class="thumbnail" onclick="changeImage('/IMAGENS/refri3p.webp', this)">
+                        <img src="/IMAGENS/refri3p.webp" alt="3 Portas">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lado Direito: Informações e Ações -->
+            <div class="flex flex-col justify-center h-full">
+                <h1 class="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">Refrigerador Horizontal</h1>
+                <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                    Mesa refrigerada de encosto em aço inox com tampo liso. Ideal para preparo, manipulação de alimentos e conservação segura dos insumos em cozinhas de alta performance.
+                </p>
+
+                <!-- Seletor Dropdown de Modelos -->
+                <div class="bg-[#f8f9fa] p-5 rounded-xl border border-gray-200 mb-6">
+                    <label for="model-select" class="flex items-center text-[13px] font-extrabold text-[#1a1a1a] uppercase tracking-wide mb-3">
+                        <i class="fas fa-list-ul mr-2 text-lg"></i> Selecione o Modelo:
+                    </label>
+                    <select id="model-select" onchange="selecionarModeloDropdown()" class="w-full p-4 border border-gray-300 rounded-lg bg-white text-gray-800 font-medium focus:outline-none focus:border-vinho focus:ring-1 focus:ring-vinho transition-all appearance-none cursor-pointer" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23131313%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-position: right 1rem top 50%; background-size: 0.65rem auto; background-repeat: no-repeat;">
+                        <!-- Opções injetadas via JavaScript -->
+                    </select>
+                </div>
+
+                <!-- Botão CTA -->
+                <button onclick="addCurrentToCart(this)" class="w-full bg-vinho text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-red-900 transition-all shadow-lg shadow-red-900/20 flex items-center justify-center gap-3">
+                    <i class="fas fa-cart-plus text-lg"></i>
+                    <span>Adicionar ao Orçamento</span>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- SESSÃO INFERIOR: TABELA COMPLETA -->
+        <div class="pt-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <span class="w-1.5 h-6 bg-vinho rounded-full block"></span> Todos os Modelos e Especificações
+            </h3>
+
+            <!-- Tabela Técnica a toda a largura -->
+            <div class="tabela-wrapper shadow-sm w-full">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Código</th>
+                            <th>Dimensões (mm)</th>
+                            <th>Nº de portas</th>
+                            <th>Volume Litros</th>
+                            <th>Nº de GN 1/1-65</th>
+                            <th>Potência HP/W</th>
+                            <th>Volume</th>
+                            <th>Rodízios</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detail-table-body">
+                        <!-- Preenchido via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+          
+
+            <!-- Documentos Técnicos CENTRALIZADOS embaixo da tabela -->
+            <div class="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-center items-center gap-6 w-full">
+                <a href="docs/desenho_horizontal.pdf" target="_blank" class="doc-btn w-full sm:w-72 p-5 rounded-xl bg-white border border-gray-200 flex items-center justify-center gap-4 group no-underline">
+                    <i class="far fa-file-pdf text-3xl text-red-500 group-hover:text-vinho transition-colors"></i>
+                    <div class="text-left">
+                        <span class="block font-bold text-gray-800 text-sm uppercase">Desenho Técnico</span>
+                        <span class="text-[10px] text-gray-400">Baixar PDF</span>
+                    </div>
+                </a>
+                <a href="docs/manual_refrigeracao.pdf" target="_blank" class="doc-btn w-full sm:w-72 p-5 rounded-xl bg-white border border-gray-200 flex items-center justify-center gap-4 group no-underline">
+                    <i class="fas fa-book text-3xl text-gray-400 group-hover:text-gray-600 transition-colors"></i>
+                    <div class="text-left">
+                        <span class="block font-bold text-gray-800 text-sm uppercase">Manual de Uso</span>
+                        <span class="text-[10px] text-gray-400">Instalação e Limpeza</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="premium-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img class="logoberta" src="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png" alt="Logo Berta">
+                <p>Especialista em cozinhas industriais de alta performance. Qualidade e durabilidade em cada detalhe do seu projeto gastronômico.</p>
+                <div class="social-grid">
+                    <a href="https://www.instagram.com/bertacozinhas" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/BertaCozinhasIndustrial" class="social-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.linkedin.com/company/berta-cozinhas-industriais" class="social-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://api.whatsapp.com/send?phone=5511957861330&text=Olá, vim pelo site e gostaria de mais infomações." class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-title">Institucional</h4>
+                <ul>
+                    <li><a href="/index.html"><i class="fas fa-chevron-right"></i> Início</a></li>
+                    <li><a href="/index.html#produtos"><i class="fas fa-chevron-right"></i> Produtos</a></li>
+                    <li><a href="/index.html#sobre"><i class="fas fa-chevron-right"></i> Sobre Nós</a></li>
+                    <li><a href="/index.html#manutencao"><i class="fas fa-chevron-right"></i> Manutenção</a></li>
+                    <li><a href="/index.html#contato"><i class="fas fa-chevron-right"></i> Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-title">Categorias</h4>
+                <ul>
+                    <li><a href="/refrigeracao.html"><i class="fas fa-chevron-right"></i> Refrigeração</a></li>
+                    <li><a href="/bar.html"><i class="fas fa-chevron-right"></i> Bar</a></li>
+                    <li><a href="/mobiliario.html"><i class="fas fa-chevron-right"></i> Mobiliário</a></li>
+                    <li><a href="/coccao.html"><i class="fas fa-chevron-right"></i> Cocção</a></li>
+                    <li><a href="/forno.html"><i class="fas fa-chevron-right"></i> Forno Vulcano</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4 class="footer-title">Contato</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Av. Guilherme, 925<br>Vila Guilherme, São Paulo - SP</p>
+                <p><i class="fas fa-phone-alt"></i> (11) 2901-1514</p>
+                <p><i class="fas fa-envelope"></i> comercial@berta.com.br</p>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>© 2024 Berta Cozinhas Industriais. Todos os direitos reservados.</p></div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="/script.js"></script>
+    <script>
+        // Dados dos Modelos (Refrigerador Horizontal)
+        // imgIdx: 0 -> Foto 2 Portas | imgIdx: 1 -> Foto 3 Portas
+        const modelosHorizontal = [
+            { cod: 'RH5-140',    dim: '1400 x 700 x 890', portas: '2', volL: '309', gn: '10', pot: '1/4 434', volM3: '0,85 m³', rod: '4', imgIdx: 0 },
+            { cod: 'RH5-140L60', dim: '1400 x 600 x 890', portas: '2', volL: '309', gn: '10', pot: '1/4 434', volM3: '0,85 m³', rod: '4', imgIdx: 0 },
+            { cod: 'RH5-150',    dim: '1500 x 700 x 890', portas: '2', volL: '309', gn: '10', pot: '1/4 434', volM3: '0,85 m³', rod: '4', imgIdx: 0 },
+            { cod: 'RH5-150L60', dim: '1500 x 600 x 890', portas: '2', volL: '309', gn: '10', pot: '1/4 434', volM3: '0,85 m³', rod: '4', imgIdx: 0 },
+            { cod: 'RH5-190',    dim: '1900 x 700 x 890', portas: '3', volL: '480', gn: '15', pot: '1/4 434', volM3: '1,15 m³', rod: '6', imgIdx: 1 },
+            { cod: 'RH5-190L60', dim: '1900 x 600 x 890', portas: '3', volL: '480', gn: '15', pot: '1/4 434', volM3: '1,15 m³', rod: '6', imgIdx: 1 },
+            { cod: 'RH5-200',    dim: '2000 x 700 x 890', portas: '3', volL: '480', gn: '15', pot: '1/4 434', volM3: '1,15 m³', rod: '6', imgIdx: 1 },
+            { cod: 'RH5-200L60', dim: '2000 x 600 x 890', portas: '3', volL: '480', gn: '15', pot: '1/4 434', volM3: '1,15 m³', rod: '6', imgIdx: 1 }
+        ];
+
+        let modeloSelecionado = null;
+
+        // Renderiza o dropdown apenas com o código do modelo
+        function renderizarOpcoesDropdown() {
+            const select = document.getElementById('model-select');
+            select.innerHTML = modelosHorizontal.map(m => 
+                `<option value="${m.cod}">${m.cod}</option>`
+            ).join('');
+        }
+
+        // Renderiza a tabela dinamicamente (sem o icone de check, apenas o texto do código)
+        function renderizarTabela() {
+            const tbody = document.getElementById('detail-table-body');
+            tbody.innerHTML = modelosHorizontal.map(m => `
+                <tr id="row-${m.cod}" class="cursor-pointer transition-colors hover:bg-red-50" onclick="selecionarModelo('${m.cod}')">
+                    <td class="col-model">
+                        ${m.cod}
+                    </td>
+                    <td class="font-mono text-gray-600">${m.dim}</td>
+                    <td>${m.portas}</td>
+                    <td>${m.volL}</td>
+                    <td>${m.gn}</td>
+                    <td>${m.pot}</td>
+                    <td>${m.volM3}</td>
+                    <td>${m.rod}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Chamada quando o utilizador muda o valor na caixa de seleção (Dropdown)
+        function selecionarModeloDropdown() {
+            const cod = document.getElementById('model-select').value;
+            selecionarModelo(cod, false); // false = não atualiza o dropdown de novo para evitar loops
+        }
+
+        // Função principal executada ao clicar na linha da tabela ou via dropdown
+        function selecionarModelo(cod, atualizarSelect = true) {
+            modeloSelecionado = modelosHorizontal.find(m => m.cod === cod);
+            if(!modeloSelecionado) return;
+            
+            // Remove o destaque de todas as linhas e aplica na selecionada
+            document.querySelectorAll('#detail-table-body tr').forEach(row => {
+                row.classList.remove('selected');
+                row.style.borderLeft = "none";
+            });
+            const selectedRow = document.getElementById(`row-${cod}`);
+            if(selectedRow) {
+                selectedRow.classList.add('selected');
+                selectedRow.style.borderLeft = "4px solid var(--vinho)"; 
+            }
+
+            // Atualiza o select se a ação veio de um clique na tabela
+            if(atualizarSelect) {
+                document.getElementById('model-select').value = cod;
+            }
+
+            // Atualiza a imagem da galeria automaticamente se for 2 ou 3 portas
+            const thumbs = document.querySelectorAll('.thumbnail');
+            if(modeloSelecionado.imgIdx < thumbs.length) {
+                const thumbToClick = thumbs[modeloSelecionado.imgIdx];
+                const imgUrl = thumbToClick.querySelector('img').src;
+                changeImage(imgUrl, thumbToClick);
+            }
+        }
+
+        // Função para trocar a imagem da galeria
+        function changeImage(src, element) {
+            const mainImg = document.getElementById('main-product-img');
+            
+            mainImg.style.opacity = 0;
+            
+            setTimeout(() => {
+                mainImg.src = src;
+                mainImg.style.opacity = 1; 
+            }, 200);
+
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Função do Botão de Carrinho
+        function addCurrentToCart(btnElement) {
+            if(!modeloSelecionado) {
+                alert("Por favor, selecione um modelo antes de adicionar ao orçamento.");
+                return;
+            }
+
+            if(typeof adicionarAoCarrinho === 'function') {
+                // Envia o Nome da Categoria + O Código do Modelo selecionado
+                adicionarAoCarrinho("Refrigerador Horizontal", modeloSelecionado.cod); 
+                
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check"></i> <span>ADICIONADO!</span>';
+                btnElement.classList.replace('bg-vinho', 'bg-green-600');
+                
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.classList.replace('bg-green-600', 'bg-vinho');
+                }, 2000);
+            } else {
+                alert("Para o carrinho funcionar, verifique se o arquivo script.js está carregando corretamente na página.");
+            }
+        }
+
+        window.onload = () => {
+            renderizarOpcoesDropdown();
+            renderizarTabela();
+            // Seleciona o primeiro modelo por padrão
+            selecionarModelo(modelosHorizontal[0].cod); 
+            
+            if(typeof atualizarBadgeCarrinho === 'function') atualizarBadgeCarrinho();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Berta Cozinhas Industriais</title>
+  <link rel="shortcut icon" href="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png">
+  <meta name="description" content="Berta Cozinhas Industriais: Especialistas em equipamentos para cozinhas profissionais, com produtos em aço inox, manutenção e customização. Transforme seu espaço com qualidade e eficiência.">
+  <meta name="keywords" content="cozinhas industriais, equipamentos inox, manutenção, refrigeração, cocção, mobiliário, forno vulcano">
+  <meta property="og:title" content="Berta Cozinhas Industriais">
+  <meta property="og:description" content="Descubra equipamentos de alta qualidade para cozinhas profissionais. Personalização e manutenção especializada.">
+  <meta property="og:image" content="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png">
+  <meta property="og:url" content="https://berta.com.br">
+  
+  <link rel="stylesheet" href="/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- AJUSTES DO HEADER, NAV, BOTÃO E CARRINHO (Padronizado com páginas de produto) -->
+  <style>
+    :root { --vinho: #800020; --vinho-dark: #5a0016; }
+
+    /* Força o Header a ter as mesmas medidas das páginas de produtos */
+    header { 
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between; 
+        padding: 1.25rem 3rem !important; 
+        background: white; 
+        border-bottom: 1px solid #f3f4f6; 
+        position: sticky; 
+        top: 0; 
+        z-index: 1000; 
+        box-sizing: border-box;
+    }
+    
+    /* Permite que os cantos se adaptem sem quebrar o layout */
+    .logo-container { flex: 0 0 auto; min-width: 180px; }
+    .logo-container img { height: 2.25rem; width: auto; }
+    @media (min-width: 768px) { .logo-container img { height: 2.5rem; } }
+    
+    /* Ajuste do Nav para centralizar corretamente */
+    header nav { flex: 1; display: flex; justify-content: center; }
+    header nav ul { display: flex; gap: 2.5rem; list-style: none; padding: 0; margin: 0; align-items: center; }
+    header nav a { text-decoration: none; color: #4b5563 !important; font-weight: 500 !important; transition: color 0.3s; font-size: 0.95rem !important; font-family: 'Poppins', sans-serif;}
+    header nav a:hover { color: var(--vinho) !important; }
+    
+    /* Container dos botões flexível para NÃO quebrar o texto do botão */
+    .header-actions { 
+        flex: 0 0 auto; 
+        min-width: 180px;
+        display: flex; 
+        justify-content: flex-end; 
+        align-items: center; 
+        gap: 1.5rem; 
+    }
+    
+    /* CSS do Ícone do Carrinho (Exato das novas páginas) */
+    .cart-btn {
+        color: #4b5563 !important;
+        font-size: 1.25rem !important;
+        position: relative;
+        text-decoration: none;
+        transition: color 0.3s;
+        display: flex;
+        align-items: center;
+    }
+    .cart-btn:hover { color: var(--vinho) !important; }
+    
+    .cart-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: var(--vinho);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 10px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    .hidden { display: none !important; }
+    
+    /* CSS do Botão Meu Orçamento (Sem quebra de linha) */
+    .botao-orcamento {
+        background-color: var(--vinho) !important;
+        color: white !important;
+        padding: 0.5rem 1.25rem !important;
+        border-radius: 9999px !important; 
+        font-size: 0.75rem !important;
+        font-weight: 700 !important;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 15px -3px rgba(128, 0, 32, 0.2) !important;
+        white-space: nowrap !important; /* GARANTE QUE NÃO TERÁ QUEBRA DE TEXTO */
+        font-family: 'Poppins', sans-serif;
+    }
+    .botao-orcamento:hover {
+        background-color: var(--vinho-dark) !important;
+        transform: translateY(-1px);
+    }
+    
+    /* Comportamento do Dropdown */
+    .dropdown { position: relative; }
+    .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: white; min-width: 220px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); padding: 10px 0; border-top: 3px solid var(--vinho); z-index: 100; text-align: left; }
+    .dropdown:hover .dropdown-menu { display: block; }
+    .dropdown-menu a { display: block; padding: 10px 20px !important; color: #333 !important; font-weight: 400 !important; transition: 0.2s; font-size: 0.9rem !important; }
+    .dropdown-menu a:hover { background-color: #f9f9f9; color: var(--vinho) !important; padding-left: 25px !important; }
+    .has-submenu { position: relative; }
+    .submenu { display: none; position: absolute; left: 100%; top: 0; background-color: white; min-width: 280px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-left: 1px solid #eee; padding: 0.5rem 0; z-index: 101; text-align: left; }
+    .has-submenu:hover .submenu { display: block; }
+    
+    @media (max-width: 768px) {
+        header { flex-direction: column; padding: 1rem !important; gap: 1rem; }
+        header nav { display: none; }
+        .header-actions { justify-content: center; flex: 1; }
+    }
+  </style>
+</head>
+<body id="top">
+
+  <header>
+    <div class="logo-container">
+      <a href="#top" class="logo-link" aria-label="Voltar para o topo">
+        <img class="logoberta" src="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png" alt="Logo da Berta Cozinhas Industriais" />
+      </a>
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="/index.html#sobre">Sobre</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">
+            <span>Produtos</span> 
+            <i class="arrow-icon fas fa-chevron-down" style="font-size: 10px; margin-left: 4px;"></i> 
+          </a>
+          <ul class="dropdown-menu">
+           <li class="has-submenu">
+              <a href="/REFRIGERAÇÃO/refrigeracao.html" style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Refrigeração</span>
+                  <i class="fas fa-chevron-right" style="font-size: 10px;"></i>
+              </a>
+              <ul class="submenu">
+                  <li><a href="/REFRIGERAÇÃO/horizontal.html"><span>Refrig. Horizontal</span></a></li>
+                  <li><a href="/REFRIGERAÇÃO/gavetas.html"><span>Horizontal c/ Gavetas</span></a></li>
+                  <li><a href="/REFRIGERAÇÃO/vertical.html"><span>Refrig. Vertical</span></a></li>
+                  <li><a href="/REFRIGERAÇÃO/cabecote.html"><span>Cabeçote Refrigerado</span></a></li>
+                  <!-- Botão Ver Todos -->
+                  <li style="border-top: 1px solid #eee; margin-top: 5px;">
+                      <a href="/REFRIGERAÇÃO/refrigeracao.html" style="font-weight: bold !important; color: #9b2226 !important; text-align: center; justify-content: center;">
+                          <span>Ver Todos</span>
+                      </a>
+                  </li>
+              </ul>
+            </li>
+            <li><a href="/BAR/bar.html"><span>Bar</span></a></li>
+            <li><a href="/MOBILIARIO/mobiliario.html"><span>Mobiliário</span></a></li>
+            <li><a href="/COCCAO/coccao.html"><span>Cocção</span></a></li>
+            <li><a href="/FORNO/forno.html"><span>Forno</span></a></li>
+          </ul>
+
+        </li>
+        <li><a href="/index.html#manutencao">Manutenção</a></li>
+        <li><a href="/index.html#contato">Contato</a></li>
+        <li><a href="/trabalhe_conosco.html">Trabalhe Conosco</a></li>
+      </ul>
+    </nav>
+      
+    <div class="header-actions">
+        <!-- Ícone do Carrinho -->
+        <a href="/orcamento.html" class="cart-btn" title="Ver meu orçamento">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-badge" class="cart-badge hidden">0</span>
+        </a>
+
+        <!-- Botão de Contato/Orçamento -->
+        <a href="/orcamento.html" class="botao-orcamento" role="button">
+            MEU ORÇAMENTO
+        </a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Transforme agora o seu espaço</h2>
+      <p>Descubra nossa seleção incomparável de materiais de alta qualidade e design personalizado. Visite-nos hoje para começar a criar a cozinha dos seus sonhos!</p>
+      <img src="" alt="">
+    </div>
+  </section>
+
+  <section class="features js-scroll" id="sobre">
+    <h2 class="fade-down">Por que escolher a Berta</h2>
+    <p class="fade-down subtitulo">Experiência, personalização e orientação técnica que transformam projetos em resultados reais.</p>
+
+    <div class="cards-container">
+      <div class="card" tabindex="0">
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="5"/>
+            <path d="M8 13l-2.5 8L12 17l6.5 4L16 13"/>
+          </svg>
+        </div>
+        <div class="card-text">
+          <h3>Experiência Especializada</h3>
+          <p>Décadas de atuação e um time de especialistas prontos para oferecer as melhores soluções.</p>
+        </div>
+      </div>
+
+      <div class="card" tabindex="0">
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09A1.65 1.65 0 0 0 10.09 3V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+          </svg>
+        </div>
+        <div class="card-text">
+          <h3>Customização Personalizada</h3>
+          <p>Projetos desenvolvidos sob medida para o seu espaço e as suas necessidades.</p>
+        </div>
+      </div>
+
+      <div class="card" tabindex="0">
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="15 9 10 11 9 15 14 13 15 9"/>
+            <circle cx="12" cy="12" r="1"/>
+          </svg>
+        </div>
+        <div class="card-text">
+          <h3>Orientação Profissional</h3>
+          <p>Conselhos técnicos e apoio especializado em todas as etapas do projeto.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta fade-up">
+      <h3>Da concepção à instalação, a Berta está com você em cada passo.</h3>
+      <p>Fale agora com nossos especialistas e descubra o melhor para o seu projeto.</p>
+      <a href="https://wa.me/5511973386248?text=Ol%C3%A1%2C%20encontrei%20a%20Berta%20Cozinhas%20Industriais%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20especialista%20sobre%20meu%20projeto." target="_blank" class="cta-button" role="button">
+        Fale com um Especialista
+      </a>
+    </div>
+  </section>
+  
+  <section id="produtos" class="produtos-section">
+    <h2>Conheça nossos Produtos</h2>
+    <div class="produtos-abas">
+      <button type="button" class="aba ativa" data-target="refrigeracao">Refrigeração</button>
+      <button type="button" class="aba" data-target="bar">Bar</button>
+      <button type="button" class="aba" data-target="mobiliario">Mobiliário</button>
+      <button type="button" class="aba" data-target="coccao">Cocção</button>
+      <button type="button" class="aba" data-target="forno">Forno Vulcano</button>
+    </div>
+
+    <div class="produtos-conteudo">
+      <div class="conteudo ativo" id="refrigeracao">
+        <div class="texto">
+          <p>
+            Nossos refrigeradores horizontais em aço inoxidável oferecem alta qualidade e durabilidade para ambientes comerciais exigentes.
+            Compactos, higiênicos e de fácil limpeza, garantem ampla capacidade interna e podem ser configurados com portas ou gavetas.
+          </p>
+          <a href="/REFRIGERAÇÃO/refrigeracao.html" class="cta-button produto-btn">Saiba Mais</a>
+        </div>
+        <div class="carrossel">
+          <div class="slides">
+            <img src="https://berta.com.br/wp-content/uploads/2024/05/REFRIGERADOR-3-PORTAS-2.png" alt="Refrigerador 1">
+            <img src="https://berta.com.br/wp-content/uploads/2024/06/refrigerador-aberto-1024x683.png" alt="Refrigerador 2">
+          </div>
+          <div class="carrossel-controles">
+            <span class="prev" role="button" aria-label="Anterior">❮</span>
+            <span class="next" role="button" aria-label="Próximo">❯</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="conteudo" id="bar">
+        <div class="texto">
+          <p>
+            A Estação de Barman é a solução ideal para bares e restaurantes com alta demanda.
+            Proporciona agilidade e eficiência no preparo de drinks, com design funcional e tamanhos variados para atender diferentes necessidades.
+          </p>
+           <a href="/BAR/bar.html" class="cta-button produto-btn">Saiba Mais</a>
+        </div>
+        <div class="carrossel">
+          <div class="slides">
+            <img src="https://berta.com.br/wp-content/uploads/2024/05/WhatsApp-Image-2024-05-02-at-11.04.05.jpeg" alt="Estação Barman 1">
+            <img src="https://cdn.dooca.store/74523/products/estacao-barman-01-2_640x640.jpg?v=1736436672&webp=0" alt="Estação Barman 2">
+          </div>
+          <div class="carrossel-controles">
+            <span class="prev" role="button" aria-label="Anterior">❮</span>
+            <span class="next" role="button" aria-label="Próximo">❯</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="conteudo" id="mobiliario">
+        <div class="texto">
+          <p>
+            Mesas, prateleiras e estantes em aço inox da BERTA oferecem praticidade, durabilidade e fácil higienização.
+            Soluções sob medida que elevam o padrão e a eficiência do seu ambiente profissional.
+          </p>
+           <a href="/MOBILIARIO/mobiliario.html" class="cta-button produto-btn">Saiba Mais</a>
+        </div>
+        <div class="carrossel">
+          <div class="slides">
+            <img src="https://berta.com.br/wp-content/uploads/2024/05/mobiliario.jpeg" alt="Mobiliário 1">
+            <img src="https://www.acorio.com.br/imagens/informacoes/moveis-cozinha-industrial-rj-01.jpg" alt="Mobiliário 2">
+          </div>
+          <div class="carrossel-controles">
+            <span class="prev" role="button" aria-label="Anterior">❮</span>
+            <span class="next" role="button" aria-label="Próximo">❯</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="conteudo" id="coccao">
+        <div class="texto">
+          <p>
+            Equipamentos de cocção BERTA garantem eficiência, segurança e desempenho superior.
+            Construídos com materiais de alta qualidade, permitem preparar diversos pratos com precisão e durabilidade.
+          </p>
+           <a href="/COCCAO/coccao.html" class="cta-button produto-btn">Saiba Mais</a>
+        </div>
+        <div class="carrossel">
+          <div class="slides">
+            <img src="https://berta.com.br/wp-content/uploads/2024/05/WhatsApp-Image-2024-05-02-at-10.43.40.jpeg" alt="Cocção 1">
+            <img src="https://berta.com.br/wp-content/uploads/2024/06/MG_5342-1024x683.jpg" alt="Cocção 2">
+            <img src="https://berta.com.br/wp-content/uploads/2024/06/FTEGS-4S.jpeg" alt="Cocção 3">
+          </div>
+          <div class="carrossel-controles">
+            <span class="prev" role="button" aria-label="Anterior">❮</span>
+            <span class="next" role="button" aria-label="Próximo">❯</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="conteudo" id="forno">
+        <div class="texto">
+          <p>
+            O Forno Vulcano combina a tradição do carvão com tecnologia moderna.
+            Eficiente e econômico, acelera o preparo sem perder sabor ou suculência, sendo ideal para cozinhas profissionais de alto padrão.
+          </p>
+           <a href="/FORNO/forno.html" class="cta-button produto-btn">Saiba Mais</a>
+        </div>
+        <div class="carrossel">
+          <div class="slides">
+            <img src="https://berta.com.br/wp-content/uploads/2024/05/MG_5255-683x1024.png" alt="Forno Vulcano 1">
+            <img src="https://berta.com.br/wp-content/uploads/2024/05/WhatsApp-Image-2024-05-02-at-11.59.47-1.jpeg" alt="Forno Vulcano 2">
+            <img src="https://berta.com.br/wp-content/uploads/2024/05/WhatsApp-Image-2024-05-02-at-10.28.24.jpeg" alt="Forno Vulcano 3">
+          </div>
+          <div class="carrossel-controles">
+            <span class="prev" role="button" aria-label="Anterior">❮</span>
+            <span class="next" role="button" aria-label="Próximo">❯</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="manutencao" class="manutencao-section">
+    <div class="manutencao-conteudo">
+      <div class="texto">
+        <h2>Serviços de Manutenção</h2>
+        <p>
+          Mesmo com a manutenção preventiva em dia, imprevistos podem acontecer.  
+          A BERTA oferece atendimento rápido e eficiente em manutenção corretiva,  
+          garantindo que seus equipamentos voltem a funcionar com o máximo desempenho.
+        </p>
+        <p>
+          Nossa equipe técnica especializada atua com agilidade para minimizar paradas e manter sua operação em pleno funcionamento.
+        </p>
+<a href="https://api.whatsapp.com/send?phone=5511957861330&text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20servi%C3%A7os%20de%20manuten%C3%A7%C3%A3o." 
+   target="_blank" 
+   class="whatsapp-button">
+    <i class="fab fa-whatsapp"></i> Solicitar Manutenção
+</a>
+      </div>
+      <div class="imagem">
+        <img src="https://berta.com.br/wp-content/uploads/2024/03/set-tools-tool-kit-isolated-1.jpg" alt="Ferramentas de manutenção para equipamentos industriais" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section id="contato" class="contato-section js-scroll">
+    <h2>Fale Conosco</h2>
+    <p class="subtitulo">Entre em contato para orçamentos, dúvidas ou para iniciar seu projeto.</p>
+
+    <div class="contato-container fade-up">
+      <div class="contato-mapa">
+        <iframe src="https://maps.google.com/maps?q=Av.+Guilherme,+925+-+Vila+Guilherme,+S%C3%A3o+Paulo+-+SP,+02053-002&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <div class="contato-info-form">
+        <div class="contato-info">
+          <h3>Informações Essenciais</h3>
+          <div class="info-item">
+            <p><strong><i class="fas fa-map-marker-alt"></i> Endereço:</strong></p>
+            <p>Av. Guilherme, 925 - Vila Guilherme, São Paulo - SP, 02053-002</p>
+          </div>
+          <div class="info-item">
+            <p><strong><i class="fas fa-phone-alt"></i> Telefone:</strong></p>
+            <p>(11) 2901-1514</p>
+          </div>
+          <div class="info-item">
+            <p><strong><i class="fab fa-whatsapp"></i> WhatsApp:</strong></p>
+            <p>(11) 97338-6248</p>
+          </div>
+          <div class="info-item">
+            <p><strong><i class="fas fa-envelope"></i> E-mail:</strong></p>
+            <p>leonardo.castelhano@berta.com.br</p>
+          </div>
+        </div>
+
+        <div class="contato-form">
+          <h3>Envie sua Mensagem</h3>
+          <form>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" placeholder="Seu Nome" required>
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" placeholder="Seu E-mail" required>
+            <label for="assunto">Assunto:</label>
+            <input type="text" id="assunto" placeholder="Assunto" required>
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem" placeholder="Sua Mensagem" rows="5" required></textarea>
+            <button type="submit" class="cta-button">Enviar</button>
+          </form>
+        
+        </div>
+      </div>
+    </div>
+  </section>
+
+        <section id="trabalhe-conosco" class="trabalhe-section js-scroll">
+            <div class="trabalhe-content">
+                <h2>Faça Parte da Nossa Equipe</h2>
+                <p>Estamos sempre em busca de talentos apaixonados por inovação e qualidade. Se você quer crescer conosco, envie seu currículo para nosso banco de talentos.</p>
+                
+              
+                <a href="/trabalhe_conosco.html" class="cta-button btn-white">
+                    <i class="fas fa-paper-plane"></i> Enviar Currículo
+                </a>
+            </div>
+        </section>
+
+  <footer class="premium-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img class="logoberta" src="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png" alt="Logo Berta">
+                <p>Especialista em cozinhas industriais de alta performance. Qualidade e durabilidade em cada detalhe do seu projeto gastronômico.</p>
+                <div class="social-grid">
+                    <a href="https://www.instagram.com/bertacozinhas" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/BertaCozinhasIndustrial" class="social-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.linkedin.com/company/berta-cozinhas-industriais" class="social-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://api.whatsapp.com/send?phone=5511957861330&text=Olá, vim pelo site e gostaria de mais infomações." class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-title">Institucional</h4>
+                <ul>
+                    <li><a href="/index.html"><i class="fas fa-chevron-right"></i> Início</a></li>
+                    <li><a href="/index.html#produtos"><i class="fas fa-chevron-right"></i> Produtos</a></li>
+                    <li><a href="/index.html#sobre"><i class="fas fa-chevron-right"></i> Sobre Nós</a></li>
+                    <li><a href="/index.html#manutencao"><i class="fas fa-chevron-right"></i> Manutenção</a></li>
+                    <li><a href="/index.html#contato"><i class="fas fa-chevron-right"></i> Contato</a></li>
+                    <li><a href="/trabalhe_conosco.html"><i class="fas fa-chevron-right"></i> Trabalhe Conosco</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-title">Categorias</h4>
+                <ul>
+                    <li><a href="/REFRIGERAÇÃO/refrigeracao.html"><i class="fas fa-chevron-right"></i> Refrigeração</a></li>
+                    <li><a href="/BAR/bar.html"><i class="fas fa-chevron-right"></i> Bar</a></li>
+                    <li><a href="/MOBILIARIO/mobiliario.html"><i class="fas fa-chevron-right"></i> Mobiliário</a></li>
+                    <li><a href="/COCCAO/coccao.html"><i class="fas fa-chevron-right"></i> Cocção</a></li>
+                    <li><a href="/FORNO/forno.html"><i class="fas fa-chevron-right"></i> Forno Vulcano</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4 class="footer-title">Contato</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Av. Guilherme, 925<br>Vila Guilherme, São Paulo - SP</p>
+                <p><i class="fas fa-phone-alt"></i> (11) 2901-1514</p>
+                <p><i class="fas fa-envelope"></i> comercial@berta.com.br</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Berta Cozinhas Industriais. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>

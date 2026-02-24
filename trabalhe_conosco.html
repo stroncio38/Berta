@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalhe Conosco | Berta Cozinhas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #ffffff; color: #1a1a1a; margin: 0; }
+        :root { --vinho: #800020; --vinho-dark: #5a0016; --dark-bg: #111111; }
+        
+        .bg-vinho { background-color: var(--vinho); }
+        .text-vinho { color: var(--vinho); }
+
+        /* ---------------------------------------------------
+           AJUSTES DO HEADER, NAV, BOTÃO E CARRINHO (PADRÃO)
+           --------------------------------------------------- */
+        header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 1.25rem 3rem !important; 
+            background: white; 
+            border-bottom: 1px solid #f3f4f6; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-sizing: border-box;
+        }
+        
+        .logo-container { flex: 0 0 auto; min-width: 180px; }
+        .logo-container img { height: 2.25rem; width: auto; }
+        @media (min-width: 768px) { .logo-container img { height: 2.5rem; } }
+        
+        header nav { flex: 1; display: flex; justify-content: center; }
+        header nav ul { display: flex; gap: 2.5rem; list-style: none; padding: 0; margin: 0; align-items: center; }
+        header nav a { text-decoration: none; color: #4b5563 !important; font-weight: 500 !important; transition: color 0.3s; font-size: 0.95rem !important; font-family: 'Poppins', sans-serif;}
+        header nav a:hover { color: var(--vinho) !important; }
+        
+        .header-actions { 
+            flex: 0 0 auto; 
+            min-width: 180px;
+            display: flex; 
+            justify-content: flex-end; 
+            align-items: center; 
+            gap: 1.5rem; 
+        }
+        
+        .cart-btn {
+            color: #4b5563 !important;
+            font-size: 1.25rem !important;
+            position: relative;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .cart-btn:hover { color: var(--vinho) !important; }
+        
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--vinho);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .hidden { display: none !important; }
+        
+        .botao-orcamento {
+            background-color: var(--vinho) !important;
+            color: white !important;
+            padding: 0.5rem 1.25rem !important;
+            border-radius: 9999px !important; 
+            font-size: 0.75rem !important;
+            font-weight: 700 !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(128, 0, 32, 0.2) !important;
+            white-space: nowrap !important;
+            font-family: 'Poppins', sans-serif;
+        }
+        .botao-orcamento:hover {
+            background-color: var(--vinho-dark) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Comportamento do Dropdown */
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: white; min-width: 220px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); padding: 10px 0; border-top: 3px solid var(--vinho); z-index: 100; text-align: left; }
+        .dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu a { display: block; padding: 10px 20px !important; color: #333 !important; font-weight: 400 !important; transition: 0.2s; font-size: 0.9rem !important; }
+        .dropdown-menu a:hover { background-color: #f9f9f9; color: var(--vinho) !important; padding-left: 25px !important; }
+        .has-submenu { position: relative; }
+        .submenu { display: none; position: absolute; left: 100%; top: 0; background-color: white; min-width: 280px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-left: 1px solid #eee; padding: 0.5rem 0; z-index: 101; text-align: left; }
+        .has-submenu:hover .submenu { display: block; }
+
+        /* Estilo do Formulário Específico (Padrão Orçamento) */
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: var(--vinho);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(128, 0, 32, 0.05);
+        }
+
+        /* Upload Customizado */
+        .custom-file-upload {
+            border: 2px dashed #e5e7eb;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 0.75rem;
+            background-color: #f9fafb;
+            transition: all 0.3s ease;
+        }
+        .custom-file-upload:hover {
+            border-color: var(--vinho);
+            background-color: #fff5f5;
+        }
+
+        /* Footer Padrão */
+        .premium-footer { background-color: var(--dark-bg); color: #ffffff; padding: 80px 0 0 0; }
+        .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 60px; }
+        .footer-brand .logoberta { height: 45px; filter: brightness(0) invert(1); margin-bottom: 25px; }
+        .footer-brand p { color: #999; font-size: 0.9rem; line-height: 1.6; margin-bottom: 30px; }
+        .footer-title { color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 30px; position: relative; padding-bottom: 12px; }
+        .footer-title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 35px; height: 2px; background-color: var(--vinho); }
+        .footer-links ul { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 15px; }
+        .footer-links a { color: #bbb; text-decoration: none; font-size: 0.9rem; transition: all 0.3s ease; display: flex; align-items: center; }
+        .footer-links a:hover { color: #fff; transform: translateX(5px); }
+        .footer-links a i { margin-right: 10px; font-size: 0.7rem; color: var(--vinho); }
+        .footer-contact p { display: flex; align-items: flex-start; gap: 15px; color: #bbb; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
+        .footer-contact i { color: var(--vinho); margin-top: 5px; width: 16px; text-align: center; }
+        .social-grid { display: flex; gap: 12px; margin-top: 25px; }
+        .social-icon { width: 42px; height: 42px; background: #1a1a1a; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; transition: 0.3s; text-decoration: none; border: 1px solid #222; }
+        .social-icon:hover { background: var(--vinho); border-color: var(--vinho); transform: translateY(-5px); }
+        .footer-bottom { margin-top: 80px; padding: 30px 0; border-top: 1px solid #222; text-align: center; color: #666; font-size: 0.85rem; }
+
+        @media (max-width: 992px) { 
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 40px; } 
+            header { padding: 1rem 2rem !important; }
+        }
+        @media (max-width: 768px) { 
+            header { flex-direction: column; padding: 1rem !important; gap: 1rem; }
+            header nav { display: none; }
+            .header-actions { justify-content: center; flex: 1; }
+            .footer-container { grid-template-columns: 1fr; text-align: center; gap: 50px; } 
+            .footer-title::after { left: 50%; transform: translateX(-50%); } 
+            .footer-links a, .footer-contact p, .social-grid { justify-content: center; } 
+            .premium-footer { padding-top: 60px; } 
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- HEADER PADRÃO -->
+    <header>
+        <div class="logo-container">
+            <a href="/index.html" class="logo-link" aria-label="Voltar para a home">
+                <img class="logoberta" src="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png" alt="Logo da Berta Cozinhas Industriais" />
+            </a>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="/index.html#sobre">Sobre</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <span>Produtos</span> 
+                        <i class="arrow-icon fas fa-chevron-down" style="font-size: 10px; margin-left: 4px;"></i> 
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="has-submenu">
+                            <a href="/REFRIGERAÇÃO/refrigeracao.html" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Refrigeração</span>
+                                <i class="fas fa-chevron-right" style="font-size: 10px;"></i>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="/REFRIGERAÇÃO/horizontal.html"><span>Refrig. Horizontal</span></a></li>
+                                <li><a href="/REFRIGERAÇÃO/gavetas.html"><span>Horizontal c/ Gavetas</span></a></li>
+                                <li><a href="/REFRIGERAÇÃO/vertical.html"><span>Refrig. Vertical</span></a></li>
+                                <li><a href="/REFRIGERAÇÃO/cabecote.html"><span>Cabeçote Refrigerado</span></a></li>
+                                <li style="border-top: 1px solid #eee; margin-top: 5px;">
+                                    <a href="/REFRIGERAÇÃO/refrigeracao.html" style="font-weight: bold !important; color: #9b2226 !important; text-align: center; justify-content: center;">
+                                        <span>Ver Todos</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="/BAR/bar.html"><span>Bar</span></a></li>
+                        <li><a href="/MOBILIARIO/mobiliario.html"><span>Mobiliário</span></a></li>
+                        <li><a href="/COCCAO/coccao.html"><span>Cocção</span></a></li>
+                        <li><a href="/FORNO/forno.html"><span>Forno</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="/index.html#manutencao">Manutenção</a></li>
+                <li><a href="/index.html#contato">Contato</a></li>
+                <li><a href="/trabalhe_conosco.html">Trabalhe Conosco</a></li>
+            </ul>
+        </nav>
+          
+        <div class="header-actions">
+            <a href="/orcamento.html" class="cart-btn" title="Ver meu orçamento">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-badge" class="cart-badge hidden">0</span>
+            </a>
+            <a href="/orcamento.html" class="botao-orcamento" role="button">
+                MEU ORÇAMENTO
+            </a>
+        </div>
+    </header>
+
+    <!-- Seção Principal do Formulário -->
+    <main class="min-h-screen bg-[#fcfcfc] flex-grow py-12 md:py-20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-2xl shadow-gray-200/50 border border-gray-100">
+                
+                <div class="text-center mb-10">
+                    <span class="inline-block px-4 py-1 bg-red-50 text-vinho rounded-full text-xs font-bold uppercase tracking-widest mb-4">Carreiras</span>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">
+                        Junte-se à Equipe Berta
+                    </h1>
+                    <p class="text-gray-500 text-lg">
+                        Preencha o formulário abaixo e anexe seu currículo. Boa sorte!
+                    </p>
+                </div>
+
+                <!-- Formulário -->
+                <form id="curriculumForm" class="space-y-6" onsubmit="handleFormSubmit(event)">
+                    
+                    <!-- DADOS PESSOAIS -->
+                    <div class="space-y-4 border-b pb-8 border-gray-100">
+                        <h2 class="text-xl font-bold text-gray-800 flex items-center space-x-2 mb-4">
+                            <i class="fas fa-user-circle text-vinho"></i> 
+                            <span>Dados Pessoais</span>
+                        </h2>
+                        
+                        <div>
+                            <input type="text" id="nome" name="nome" placeholder="Nome Completo *" required class="form-input">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <input type="email" id="email" name="email" placeholder="E-mail *" required class="form-input">
+                            </div>
+                            <div>
+                                <input type="tel" id="telefone" name="telefone" placeholder="Telefone/WhatsApp *" required class="form-input">
+                            </div>
+                        </div>
+
+                        <div>
+                            <input type="text" id="cidade" name="cidade" placeholder="Cidade - Estado *" required class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- VAGA E CURRÍCULO -->
+                    <div class="space-y-4 pt-4 pb-6">
+                        <h2 class="text-xl font-bold text-gray-800 flex items-center space-x-2 mb-4">
+                            <i class="fas fa-briefcase text-vinho"></i> 
+                            <span>Vaga Desejada</span>
+                        </h2>
+                        
+                        <div>
+                            <select id="area" name="area" required class="form-input text-gray-600 cursor-pointer">
+                                <option value="" disabled selected>Selecione uma Área *</option>
+                                <option value="TecnicoManutencao">Técnico de Manutenção</option>
+                                <option value="VendasComercial">Vendas/Comercial</option>
+                                <option value="Administrativo">Administrativo</option>
+                                <option value="ProducaoInox">Produção (Aço Inox)</option>
+                                <option value="Geral">Outras Áreas (Banco de Talentos)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- UPLOAD DE ARQUIVO -->
+                        <div class="pt-2">
+                            <label for="curriculo" id="file-label" class="custom-file-upload block">
+                                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-400 mx-auto mb-3 shadow-sm border border-gray-100">
+                                    <i class="fas fa-cloud-upload-alt text-xl"></i>
+                                </div>
+                                <p class="text-gray-500 text-sm font-medium">Clique para selecionar seu currículo (PDF, DOCX) <span class="text-red-500">*</span></p>
+                                <p id="file-name" class="text-sm mt-2 font-bold text-vinho"></p>
+                            </label>
+                            <input type="file" id="curriculo" name="curriculo" required accept=".pdf,.doc,.docx" class="hidden">
+                        </div>
+
+                        <div class="pt-2">
+                            <textarea id="mensagem" name="mensagem" rows="4" placeholder="Breve Apresentação (Opcional)" class="form-input"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- BOTÃO E FEEDBACK -->
+                    <button type="submit" id="submitButton" class="w-full bg-vinho text-white py-4 rounded-xl font-bold text-lg hover:bg-red-900 transition-all transform hover:-translate-y-1 shadow-xl shadow-red-900/20 flex items-center justify-center space-x-2 disabled:opacity-50" aria-live="polite">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>ENVIAR CANDIDATURA</span>
+                    </button>
+
+                    <!-- Mensagem de Sucesso (oculta por padrão) -->
+                    <div id="successMessage" class="hidden mt-6 p-5 bg-green-50 border border-green-200 text-green-700 rounded-xl text-center shadow-sm" role="alert">
+                        <i class="fas fa-check-circle text-3xl mb-2 block"></i>
+                        <p class="font-bold">Candidatura enviada com sucesso!</p>
+                        <p class="text-sm mt-1">Agradecemos o seu interesse. Entraremos em contato se o seu perfil for selecionado.</p>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER PADRÃO -->
+    <footer class="premium-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img class="logoberta" src="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png" alt="Logo Berta">
+                <p>Especialista em cozinhas industriais de alta performance. Qualidade e durabilidade em cada detalhe do seu projeto gastronômico.</p>
+                <div class="social-grid">
+                    <a href="https://www.instagram.com/bertacozinhas" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/BertaCozinhasIndustrial" class="social-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.linkedin.com/company/berta-cozinhas-industriais" class="social-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://api.whatsapp.com/send?phone=5511957861330&text=Olá, vim pelo site e gostaria de mais infomações." class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-title">Institucional</h4>
+                <ul>
+                    <li><a href="/index.html"><i class="fas fa-chevron-right"></i> Início</a></li>
+                    <li><a href="/index.html#produtos"><i class="fas fa-chevron-right"></i> Produtos</a></li>
+                    <li><a href="/index.html#sobre"><i class="fas fa-chevron-right"></i> Sobre Nós</a></li>
+                    <li><a href="/index.html#manutencao"><i class="fas fa-chevron-right"></i> Manutenção</a></li>
+                    <li><a href="/index.html#contato"><i class="fas fa-chevron-right"></i> Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-title">Categorias</h4>
+                <ul>
+                    <li><a href="/REFRIGERAÇÃO/refrigeracao.html"><i class="fas fa-chevron-right"></i> Refrigeração</a></li>
+                    <li><a href="/BAR/bar.html"><i class="fas fa-chevron-right"></i> Bar</a></li>
+                    <li><a href="/MOBILIARIO/mobiliario.html"><i class="fas fa-chevron-right"></i> Mobiliário</a></li>
+                    <li><a href="/COCCAO/coccao.html"><i class="fas fa-chevron-right"></i> Cocção</a></li>
+                    <li><a href="/FORNO/forno.html"><i class="fas fa-chevron-right"></i> Forno Vulcano</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4 class="footer-title">Contato</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Av. Guilherme, 925<br>Vila Guilherme, São Paulo - SP</p>
+                <p><i class="fas fa-phone-alt"></i> (11) 2901-1514</p>
+                <p><i class="fas fa-envelope"></i> comercial@berta.com.br</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Berta Cozinhas Industriais. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT DO CARRINHO E FORMULÁRIO -->
+    <script src="/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Atualiza o carrinho no carregamento
+            if(typeof atualizarBadgeCarrinho === 'function') atualizarBadgeCarrinho();
+
+            const fileInput = document.getElementById('curriculo');
+            const fileNameDisplay = document.getElementById('file-name');
+            const submitButton = document.getElementById('submitButton');
+            const successMessage = document.getElementById('successMessage');
+            const form = document.getElementById('curriculumForm');
+
+            // 1. Atualiza o nome do arquivo selecionado
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    fileNameDisplay.textContent = `Arquivo selecionado: ${fileInput.files[0].name}`;
+                } else {
+                    fileNameDisplay.textContent = '';
+                }
+            });
+
+            // 2. Simula o envio do formulário
+            window.handleFormSubmit = function(event) {
+                event.preventDefault(); 
+                
+                const originalText = submitButton.innerHTML;
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> <span>ENVIANDO...</span>';
+
+                setTimeout(() => {
+                    form.classList.add('hidden');
+                    successMessage.classList.remove('hidden');
+                }, 2000); 
+            };
+        });
+    </script>
+</body>
+</html>

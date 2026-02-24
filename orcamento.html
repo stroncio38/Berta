@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Orçamento | Berta Cozinhas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #ffffff; color: #1a1a1a; margin: 0; }
+        :root { --vinho: #800020; --vinho-dark: #5a0016; --dark-bg: #111111; }
+        
+        .bg-vinho { background-color: var(--vinho); }
+        .text-vinho { color: var(--vinho); }
+
+        /* ---------------------------------------------------
+           AJUSTES DO HEADER, NAV, BOTÃO E CARRINHO (PADRÃO)
+           --------------------------------------------------- */
+        header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 1.25rem 3rem !important; 
+            background: white; 
+            border-bottom: 1px solid #f3f4f6; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-sizing: border-box;
+        }
+        
+        .logo-container { flex: 0 0 auto; min-width: 180px; }
+        .logo-container img { height: 2.25rem; width: auto; }
+        @media (min-width: 768px) { .logo-container img { height: 2.5rem; } }
+        
+        header nav { flex: 1; display: flex; justify-content: center; }
+        header nav ul { display: flex; gap: 2.5rem; list-style: none; padding: 0; margin: 0; align-items: center; }
+        header nav a { text-decoration: none; color: #4b5563 !important; font-weight: 500 !important; transition: color 0.3s; font-size: 0.95rem !important; font-family: 'Poppins', sans-serif;}
+        header nav a:hover { color: var(--vinho) !important; }
+        
+        .header-actions { 
+            flex: 0 0 auto; 
+            min-width: 180px;
+            display: flex; 
+            justify-content: flex-end; 
+            align-items: center; 
+            gap: 1.5rem; 
+        }
+        
+        .cart-btn {
+            color: #4b5563 !important;
+            font-size: 1.25rem !important;
+            position: relative;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .cart-btn:hover { color: var(--vinho) !important; }
+        
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--vinho);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .hidden { display: none !important; }
+        
+        .botao-orcamento {
+            background-color: var(--vinho) !important;
+            color: white !important;
+            padding: 0.5rem 1.25rem !important;
+            border-radius: 9999px !important; 
+            font-size: 0.75rem !important;
+            font-weight: 700 !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(128, 0, 32, 0.2) !important;
+            white-space: nowrap !important;
+            font-family: 'Poppins', sans-serif;
+        }
+        .botao-orcamento:hover {
+            background-color: var(--vinho-dark) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Comportamento do Dropdown */
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: white; min-width: 220px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); padding: 10px 0; border-top: 3px solid var(--vinho); z-index: 100; text-align: left; }
+        .dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu a { display: block; padding: 10px 20px !important; color: #333 !important; font-weight: 400 !important; transition: 0.2s; font-size: 0.9rem !important; }
+        .dropdown-menu a:hover { background-color: #f9f9f9; color: var(--vinho) !important; padding-left: 25px !important; }
+        .has-submenu { position: relative; }
+        .submenu { display: none; position: absolute; left: 100%; top: 0; background-color: white; min-width: 280px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-left: 1px solid #eee; padding: 0.5rem 0; z-index: 101; text-align: left; }
+        .has-submenu:hover .submenu { display: block; }
+
+        /* Estilo do Formulário Específico */
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: var(--vinho);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(128, 0, 32, 0.05);
+        }
+
+        /* Footer Padrão */
+        .premium-footer { background-color: var(--dark-bg); color: #ffffff; padding: 80px 0 0 0; }
+        .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 60px; }
+        .footer-brand .logoberta { height: 45px; filter: brightness(0) invert(1); margin-bottom: 25px; }
+        .footer-brand p { color: #999; font-size: 0.9rem; line-height: 1.6; margin-bottom: 30px; }
+        .footer-title { color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 30px; position: relative; padding-bottom: 12px; }
+        .footer-title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 35px; height: 2px; background-color: var(--vinho); }
+        .footer-links ul { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 15px; }
+        .footer-links a { color: #bbb; text-decoration: none; font-size: 0.9rem; transition: all 0.3s ease; display: flex; align-items: center; }
+        .footer-links a:hover { color: #fff; transform: translateX(5px); }
+        .footer-links a i { margin-right: 10px; font-size: 0.7rem; color: var(--vinho); }
+        .footer-contact p { display: flex; align-items: flex-start; gap: 15px; color: #bbb; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
+        .footer-contact i { color: var(--vinho); margin-top: 5px; width: 16px; text-align: center; }
+        .social-grid { display: flex; gap: 12px; margin-top: 25px; }
+        .social-icon { width: 42px; height: 42px; background: #1a1a1a; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; transition: 0.3s; text-decoration: none; border: 1px solid #222; }
+        .social-icon:hover { background: var(--vinho); border-color: var(--vinho); transform: translateY(-5px); }
+        .footer-bottom { margin-top: 80px; padding: 30px 0; border-top: 1px solid #222; text-align: center; color: #666; font-size: 0.85rem; }
+
+        @media (max-width: 992px) { 
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 40px; } 
+            header { padding: 1rem 2rem !important; }
+        }
+        @media (max-width: 768px) { 
+            header { flex-direction: column; padding: 1rem !important; gap: 1rem; }
+            header nav { display: none; }
+            .header-actions { justify-content: center; flex: 1; }
+            .footer-container { grid-template-columns: 1fr; text-align: center; gap: 50px; } 
+            .footer-title::after { left: 50%; transform: translateX(-50%); }
+            .footer-links a, .footer-contact p, .social-grid { justify-content: center; }
+            .premium-footer { padding-top: 60px; }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- HEADER (Padrão) -->
+    <header>
+        <div class="logo-container">
+            <a href="/index.html" class="logo-link" aria-label="Voltar para a home">
+                <img class="logoberta" src="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png" alt="Logo da Berta Cozinhas Industriais" />
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/index.html#sobre">Sobre</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <span>Produtos</span> 
+                        <i class="arrow-icon fas fa-chevron-down" style="font-size: 10px; margin-left: 4px;"></i> 
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="has-submenu">
+                            <a href="/REFRIGERAÇÃO/refrigeracao.html" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Refrigeração</span>
+                                <i class="fas fa-chevron-right" style="font-size: 10px;"></i>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="/REFRIGERAÇÃO/horizontal.html"><span>Refrig. Horizontal</span></a></li>
+                                <li><a href="/REFRIGERAÇÃO/gavetas.html"><span>Horizontal c/ Gavetas</span></a></li>
+                                <li><a href="/REFRIGERAÇÃO/vertical.html"><span>Refrig. Vertical</span></a></li>
+                                <li><a href="/REFRIGERAÇÃO/cabecote.html"><span>Cabeçote Refrigerado</span></a></li>
+                                <!-- Botão Ver Todos -->
+                                <li style="border-top: 1px solid #eee; margin-top: 5px;">
+                                    <a href="/REFRIGERAÇÃO/refrigeracao.html" style="font-weight: bold !important; color: #9b2226 !important; text-align: center; justify-content: center;">
+                                        <span>Ver Todos</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="/BAR/bar.html"><span>Bar</span></a></li>
+                        <li><a href="/MOBILIARIO/mobiliario.html"><span>Mobiliário</span></a></li>
+                        <li><a href="/COCCAO/coccao.html"><span>Cocção</span></a></li>
+                        <li><a href="/FORNO/forno.html"><span>Forno</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="/index.html#manutencao">Manutenção</a></li>
+                <li><a href="/index.html#contato">Contato</a></li>
+                <li><a href="/trabalhe_conosco.html">Trabalhe Conosco</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <!-- Ícone do Carrinho (Padronizado) -->
+            <a href="/orcamento.html" class="cart-btn" title="Ver meu orçamento">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-badge" class="cart-badge hidden">0</span>
+            </a>
+            <!-- Botão de Contato/Orçamento (Padronizado) -->
+            <a href="/orcamento.html" class="botao-orcamento" role="button">
+                MEU ORÇAMENTO
+            </a>
+        </div>
+    </header>
+
+    <main class="min-h-screen bg-[#fcfcfc] flex-grow">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-12 items-stretch">
+            
+            <!-- Lado Esquerdo: Visual e Info -->
+            <div class="p-8 lg:p-20 bg-white flex flex-col justify-center border-r border-gray-100">
+                <div class="max-w-md mx-auto lg:mx-0">
+                    <span class="inline-block px-4 py-1 bg-red-50 text-vinho rounded-full text-xs font-bold uppercase tracking-widest mb-6">Orçamento Personalizado</span>
+                    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">Leve a excelência Berta para sua cozinha.</h1>
+                    <p class="text-gray-500 text-lg mb-10">Preencha o formulário e receba uma consultoria técnica gratuita para o seu projeto.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-vinho flex-shrink-0">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Resposta em 24h</h4>
+                                <p class="text-sm text-gray-500">Nossa equipe comercial prioriza seu contato.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-vinho flex-shrink-0">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Suporte Técnico</h4>
+                                <p class="text-sm text-gray-500">Ajudamos a escolher o equipamento ideal.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lado Direito: Formulário e Lista de Carrinho -->
+            <div class="p-8 lg:p-20 flex flex-col justify-center">
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-2xl shadow-gray-200/50 border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6">Seus Itens Selecionados</h2>
+                    
+                    <!-- LISTA DE ITENS DO CARRINHO -->
+                    <div id="carrinho-container" class="mb-8">
+                        
+                        <!-- Estado Vazio -->
+                        <div id="carrinho-vazio" class="text-center py-6 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                            <i class="fas fa-shopping-basket text-gray-300 text-3xl mb-2"></i>
+                            <p class="text-sm text-gray-500">Nenhum item selecionado.</p>
+                            <a href="/index.html#produtos" class="text-xs font-bold text-vinho hover:underline mt-2 inline-block">Navegar no Catálogo</a>
+                        </div>
+
+                        <!-- Lista Preenchida (JS) -->
+                        <div id="carrinho-cheio" class="hidden">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold text-gray-400 uppercase">Lista</span>
+                                <button onclick="limparTudo()" class="text-xs text-red-500 hover:text-red-700 font-semibold hover:underline">
+                                    <i class="fas fa-trash-alt mr-1"></i> Limpar tudo
+                                </button>
+                            </div>
+                            <div id="lista-itens" class="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                                <!-- Itens entram aqui -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-gray-100 mb-8">
+
+                    <!-- FORMULÁRIO DE ENVIO -->
+                    <form id="form-orcamento" class="space-y-6" action="https://formsubmit.co/SEU_EMAIL_AQUI" method="POST" onsubmit="handleFormSubmit(event)">
+                        
+                        <!-- Campo oculto para enviar a lista por email -->
+                        <textarea id="mensagem-sistema" name="Lista_de_Produtos" class="hidden"></textarea>
+                        <input type="hidden" name="_subject" value="Novo Pedido de Orçamento - Berta">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" name="Nome" required placeholder="Seu Nome" class="form-input">
+                            <input type="email" name="Email" required placeholder="Seu E-mail" class="form-input">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="tel" name="Whatsapp" required placeholder="WhatsApp" class="form-input">
+                            <input type="text" name="Empresa" placeholder="Empresa (Opcional)" class="form-input">
+                        </div>
+
+                        <textarea name="Mensagem" rows="3" placeholder="Mensagem adicional ou dúvidas..." class="form-input"></textarea>
+
+                        <button type="submit" id="btn-enviar" class="w-full bg-vinho text-white py-4 rounded-xl font-bold text-lg hover:bg-red-900 transition-all transform hover:-translate-y-1 shadow-xl shadow-red-900/20">
+                            SOLICITAR COTAÇÃO AGORA
+                        </button>
+                        
+                        <p class="text-center text-[10px] text-gray-400 uppercase tracking-widest">Seus dados estão protegidos por criptografia.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Padrão -->
+    <footer class="premium-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img class="logoberta" src="https://berta.com.br/wp-content/uploads/2024/03/Vector-1.png" alt="Logo Berta">
+                <p>Especialista em cozinhas industriais de alta performance. Qualidade e durabilidade em cada detalhe do seu projeto gastronômico.</p>
+                <div class="social-grid">
+                    <a href="https://www.instagram.com/bertacozinhas" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/BertaCozinhasIndustrial" class="social-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.linkedin.com/company/berta-cozinhas-industriais" class="social-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://api.whatsapp.com/send?phone=5511957861330&text=Olá, vim pelo site e gostaria de mais infomações." class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-title">Institucional</h4>
+                <ul>
+                    <li><a href="/index.html"><i class="fas fa-chevron-right"></i> Início</a></li>
+                    <li><a href="/index.html#produtos"><i class="fas fa-chevron-right"></i> Produtos</a></li>
+                    <li><a href="/index.html#sobre"><i class="fas fa-chevron-right"></i> Sobre Nós</a></li>
+                    <li><a href="/index.html#manutencao"><i class="fas fa-chevron-right"></i> Manutenção</a></li>
+                    <li><a href="/index.html#contato"><i class="fas fa-chevron-right"></i> Contato</a></li>
+                    <li><a href="/trabalhe_conosco.html"><i class="fas fa-chevron-right"></i> Trabalhe Conosco</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-title">Categorias</h4>
+                <ul>
+                    <li><a href="/REFRIGERAÇÃO/refrigeracao.html"><i class="fas fa-chevron-right"></i> Refrigeração</a></li>
+                    <li><a href="/BAR/bar.html"><i class="fas fa-chevron-right"></i> Bar</a></li>
+                    <li><a href="/MOBILIARIO/mobiliario.html"><i class="fas fa-chevron-right"></i> Mobiliário</a></li>
+                    <li><a href="/COCCAO/coccao.html"><i class="fas fa-chevron-right"></i> Cocção</a></li>
+                    <li><a href="/FORNO/forno.html"><i class="fas fa-chevron-right"></i> Forno Vulcano</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4 class="footer-title">Contato</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Av. Guilherme, 925<br>Vila Guilherme, São Paulo - SP</p>
+                <p><i class="fas fa-phone-alt"></i> (11) 2901-1514</p>
+                <p><i class="fas fa-envelope"></i> comercial@berta.com.br</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Berta Cozinhas Industriais. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT DE LÓGICA DA PÁGINA (LISTA E ENVIO) -->
+    <script src="/script.js"></script> <!-- Carrega funções globais -->
+    <script>
+        // Funções locais para renderizar a lista nesta página específica
+        function renderizarListaLocal() {
+            const carrinho = JSON.parse(localStorage.getItem('berta_orcamento')) || [];
+            const containerVazio = document.getElementById('carrinho-vazio');
+            const containerCheio = document.getElementById('carrinho-cheio');
+            const listaItens = document.getElementById('lista-itens');
+            const textAreaHidden = document.getElementById('mensagem-sistema');
+            const btnEnviar = document.getElementById('btn-enviar');
+
+            if (carrinho.length === 0) {
+                containerVazio.classList.remove('hidden');
+                containerCheio.classList.add('hidden');
+                btnEnviar.disabled = true;
+                btnEnviar.style.opacity = '0.5';
+                btnEnviar.innerText = "Adicione itens para solicitar";
+                return;
+            }
+
+            containerVazio.classList.add('hidden');
+            containerCheio.classList.remove('hidden');
+            btnEnviar.disabled = false;
+            btnEnviar.style.opacity = '1';
+            btnEnviar.innerText = "SOLICITAR COTAÇÃO AGORA";
+
+            listaItens.innerHTML = '';
+            let textoParaEmail = "ITENS SOLICITADOS:\n";
+
+            carrinho.forEach((item, index) => {
+                textoParaEmail += `- ${item.produto} (${item.modelo})\n`;
+
+                const div = document.createElement('div');
+                div.className = "flex justify-between items-center p-3 bg-gray-50 border border-gray-200 rounded-xl";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-gray-400 border border-gray-100">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-800">${item.produto}</h4>
+                            <p class="text-xs text-gray-500">${item.modelo}</p>
+                        </div>
+                    </div>
+                    <button onclick="removerItemLocal(${item.id})" class="text-red-400 hover:text-red-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50 transition">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+                listaItens.appendChild(div);
+            });
+
+            // Atualiza o campo oculto que vai para o FormSubmit
+            if(textAreaHidden) textAreaHidden.value = textoParaEmail;
+        }
+
+        // Função Wrapper para remover item e atualizar a tela
+        function removerItemLocal(id) {
+            let carrinho = JSON.parse(localStorage.getItem('berta_orcamento')) || [];
+            carrinho = carrinho.filter(item => item.id !== id);
+            localStorage.setItem('berta_orcamento', JSON.stringify(carrinho));
+            renderizarListaLocal();
+            // Atualiza o badge do header se a função existir
+            if(typeof atualizarBadgeCarrinho === 'function') atualizarBadgeCarrinho();
+        }
+
+        function limparTudo() {
+            if(confirm("Deseja remover todos os itens?")) {
+                localStorage.removeItem('berta_orcamento');
+                renderizarListaLocal();
+                if(typeof atualizarBadgeCarrinho === 'function') atualizarBadgeCarrinho();
+            }
+        }
+
+        // Simulação de envio visual
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-enviar');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> ENVIANDO...';
+            btn.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> SOLICITAÇÃO ENVIADA!';
+                btn.classList.replace('bg-vinho', 'bg-green-600');
+                
+                // Limpa carrinho após sucesso
+                localStorage.removeItem('berta_orcamento');
+                renderizarListaLocal();
+                if(typeof atualizarBadgeCarrinho === 'function') atualizarBadgeCarrinho();
+                
+                document.getElementById('form-orcamento').reset();
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.replace('bg-green-600', 'bg-vinho');
+                    btn.style.opacity = '1';
+                }, 3000);
+            }, 2000);
+        }
+
+        // Inicializa ao carregar
+        window.onload = () => {
+            renderizarListaLocal();
+            if(typeof atualizarBadgeCarrinho === 'function') atualizarBadgeCarrinho();
+        };
+    </script>
+</body>
+</html>
